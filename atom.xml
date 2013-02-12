@@ -4,7 +4,7 @@
   <title><![CDATA[Scrappy Academy]]></title>
   <link href="http://ScrappyAcademy.github.com/atom.xml" rel="self"/>
   <link href="http://ScrappyAcademy.github.com/"/>
-  <updated>2013-02-11T20:02:33-05:00</updated>
+  <updated>2013-02-11T20:26:00-05:00</updated>
   <id>http://ScrappyAcademy.github.com/</id>
   <author>
     <name><![CDATA[Scrappy Academy]]></name>
@@ -167,12 +167,12 @@ re-useable we wrapped it in a method:</p>
 
 
 <p><span class='pullquote-right' data-pullquote='So at this point we took
-a step back, and asked: _&#8221;What is the code that I wish I could write?&#8221;_.'>
+a step back, and asked: &#8220;What is the code that we wish we could write?&#8221;'>
 That&#8217;s great. Now we can re-use it anywhere, and we are no longer locked into a
 <code>4_000_000</code> cap. However, the
 <a href="http://en.wikipedia.org/wiki/Fibonacci_number">Fibonnaci</a> sequence is very
 common. And this method doesn&#8217;t let us re-use that. So at this point we took
-a step back, and asked: <em>&#8220;What is the code that I wish I could write?&#8221;</em>. The
+a step back, and asked: &#8220;What is the code that we wish we could write?&#8221; The
 answer looked something like:
 </span></p>
 
