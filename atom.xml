@@ -4,7 +4,7 @@
   <title><![CDATA[Scrappy Academy]]></title>
   <link href="http://ScrappyAcademy.github.com/atom.xml" rel="self"/>
   <link href="http://ScrappyAcademy.github.com/"/>
-  <updated>2013-02-11T19:22:38-05:00</updated>
+  <updated>2013-02-11T20:02:33-05:00</updated>
   <id>http://ScrappyAcademy.github.com/</id>
   <author>
     <name><![CDATA[Scrappy Academy]]></name>
@@ -12,5 +12,338 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Fibonacci Warm-Up]]></title>
+    <link href="http://ScrappyAcademy.github.com/blog/2013/01/28/fibonacci-warm-up/"/>
+    <updated>2013-01-28T19:24:00-05:00</updated>
+    <id>http://ScrappyAcademy.github.com/blog/2013/01/28/fibonacci-warm-up</id>
+    <content type="html"><![CDATA[<p>Something we started doing just this week, and plan on continuing moving
+forward, is tackling &#8220;warm-up&#8221; problems. This is reminiscent of high school math
+class. These are relatively simple programming problems that are solved via
+<em>pairing</em>.</p>
+
+<p>This week, we solved via <em>group-pairing</em> is where the entire group participates
+in solving the problem.  One person is designated as the <em>coder</em>. S/he displays
+her/his laptop on the conference room TV (via an Apple TV). The group then
+discusses the problem, and codes up a solution together.</p>
+
+<p>Often this leads into side discussions about various programming techniques,
+tips, tricks, etc. It&#8217;s a good time for all. Everyone at different experience
+levels walks away with something new.</p>
+
+<p>Last week we started tackling <a href="http://projecteuler.net/">Project Euler</a>
+problems. Up first was <a href="http://projecteuler.net/problem=2"><em>Even Fibonacci numbers</em></a>.
+This appeared to be a relatively straight forward problem. The first solution
+that was attempted looked a bit like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">while</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="mi">4_000_000</span>
+</span><span class='line'>  <span class="n">a</span> <span class="o">=</span> <span class="n">b</span>
+</span><span class='line'>  <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">even?</span>
+</span><span class='line'>    <span class="n">sum</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">b</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">sum</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, this produced an incorrect result. Upon further investigation, the bug
+was in lines 5 and 6. Due to the order of the statements the value of <code>a</code> gets
+overwritten, before it can be added to <code>b</code>. The evaluation looks a bit like
+this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span>    <span class="c1"># Before loop</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span>    <span class="c1"># 1st pass</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">4</span>    <span class="c1"># 2nd pass</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">8</span>    <span class="c1"># 3rd pass</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So to fix this, the group replaced those two lines of code with:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">tmp</span> <span class="o">=</span> <span class="n">b</span>
+</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="n">tmp</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now when things get evaluated, it looks like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">tmp</span> <span class="o">=</span> <span class="kp">nil</span>    <span class="c1"># Before loop</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">tmp</span> <span class="o">=</span> <span class="mi">1</span>      <span class="c1"># 1st pass</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="n">tmp</span> <span class="o">=</span> <span class="mi">2</span>      <span class="c1"># 2nd pass</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="n">tmp</span> <span class="o">=</span> <span class="mi">3</span>      <span class="c1"># 3rd pass</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This led into a side discussion about some Ruby idioms. Namely, multiple
+assignment. We were able to replace these three lines of code with one:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will do exactly as you expect. It helps to understand what Ruby is doing
+behind the scenes. In essence, it&#8217;s evaluating and storing the right-hand-side
+(<em>rhs</em> as it is commonly seen in error messages). Then it uses the <code>splat</code> to
+dereference the values and assign them in turn. Think of it as:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">tmp</span> <span class="o">=</span> <span class="o">[</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">]</span>
+</span><span class='line'><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="o">*</span><span class="n">tmp</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Additionally, we talked about the <code>if</code> and <code>unless</code> one-liners. These are great
+ways to shorten up the code. Our final solution, took the form:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">while</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="mi">4_000_000</span>
+</span><span class='line'>  <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
+</span><span class='line'>  <span class="n">sum</span> <span class="o">+=</span> <span class="n">b</span> <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">even?</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">sum</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While this is a good solution. It wasn&#8217;t very re-useable. So to make it more
+re-useable we wrapped it in a method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">even_fibonnaci_sum</span><span class="p">(</span><span class="n">upper_limit</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">while</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="n">upper_limit</span>
+</span><span class='line'>    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
+</span><span class='line'>    <span class="n">sum</span> <span class="o">+=</span> <span class="n">b</span> <span class="k">if</span> <span class="n">b</span><span class="o">.</span><span class="n">even?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">sum</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><span class='pullquote-right' data-pullquote='So at this point we took
+a step back, and asked: _&#8221;What is the code that I wish I could write?&#8221;_.'>
+That&#8217;s great. Now we can re-use it anywhere, and we are no longer locked into a
+<code>4_000_000</code> cap. However, the
+<a href="http://en.wikipedia.org/wiki/Fibonacci_number">Fibonnaci</a> sequence is very
+common. And this method doesn&#8217;t let us re-use that. So at this point we took
+a step back, and asked: <em>&#8220;What is the code that I wish I could write?&#8221;</em>. The
+answer looked something like:
+</span></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Fibonnaci</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="mi">4_000_000</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:even?</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A nice little one-liner. And it&#8217;s very clear what we are doing. In English,
+this would read: <em>&#8220;For Fibonnaci numbers up to 4,000,000. Take the even numbers
+and sum them.&#8221;</em></p>
+
+<p>Sadly, there is no Fibonnaci number generator, but we can
+<a href="http://www.dev.gd/20130114-building-sequences-with-enumerator.html">build sequences</a>.
+In fact the Ruby docs show an example of how to create one
+<a href="http://ruby-doc.org/core-1.9.3/Enumerator.html#method-c-new">Fibonacci Generator</a>.</p>
+
+<p>So we coded one up:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">Fibonnaci</span>
+</span><span class='line'>  <span class="no">Enumerator</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">y</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="kp">loop</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">y</span> <span class="o">&lt;&lt;</span> <span class="n">a</span>
+</span><span class='line'>      <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Great! We have an <a href="http://ruby-doc.org/core-1.9.3/Enumerator.html"><code>Enumerator</code></a>,
+but there&#8217;s no <code>upto</code>. So we created one:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Sequentially</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">upto</span><span class="p">(</span><span class="n">limit</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">enum</span> <span class="o">=</span> <span class="no">Enumerator</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">y</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span>
+</span><span class='line'>        <span class="k">break</span> <span class="k">unless</span> <span class="n">num</span> <span class="o">&lt;</span> <span class="n">limit</span>
+</span><span class='line'>        <span class="n">y</span> <span class="o">&lt;&lt;</span> <span class="n">num</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">block</span> <span class="p">?</span> <span class="n">enum</span><span class="o">.</span><span class="n">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span> <span class="p">:</span> <span class="n">enum</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And updated the Fibonnaci generator accordingly:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">Fibonnaci</span>
+</span><span class='line'>  <span class="no">Enumerator</span><span class="o">.</span><span class="n">new</span><span class="p">{</span> <span class="o">|</span><span class="n">y</span><span class="o">|</span>
+</span><span class='line'>    <span class="c1"># see above for meat</span>
+</span><span class='line'>  <span class="p">}</span><span class="o">.</span><span class="n">extend</span> <span class="no">Sequentially</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Sweet! <code>select</code> will work just fine. However, <code>sum</code> doesn&#8217;t exist (at least not
+outside Rails). So, let&#8217;s patch that in.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Enumerable</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">sum</span>
+</span><span class='line'>    <span class="n">reduce</span><span class="p">(</span><span class="ss">:+</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So this final solution is <strong><em>a lot longer</em></strong>. However, it is composed of very
+re-usable parts that we can continue to use for more
+<a href="http://projecteuler.net/">Project Euler</a> puzzles. Put that all together and
+you have the elegant solution:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Enumerable</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">sum</span>
+</span><span class='line'>    <span class="n">reduce</span><span class="p">(</span><span class="ss">:+</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">Sequentially</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">upto</span><span class="p">(</span><span class="n">limit</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">enum</span> <span class="o">=</span> <span class="no">Enumerator</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">y</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">num</span><span class="o">|</span>
+</span><span class='line'>        <span class="k">break</span> <span class="k">unless</span> <span class="n">num</span> <span class="o">&lt;</span> <span class="n">limit</span>
+</span><span class='line'>        <span class="n">y</span> <span class="o">&lt;&lt;</span> <span class="n">num</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">block</span> <span class="p">?</span> <span class="n">enum</span><span class="o">.</span><span class="n">each</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span> <span class="p">:</span> <span class="n">enum</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">Fibonnaci</span>
+</span><span class='line'>  <span class="no">Enumerator</span><span class="o">.</span><span class="n">new</span><span class="p">{</span> <span class="o">|</span><span class="n">y</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="kp">loop</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">y</span> <span class="o">&lt;&lt;</span> <span class="n">a</span>
+</span><span class='line'>      <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="p">}</span><span class="o">.</span><span class="n">extend</span> <span class="no">Sequentially</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Fibonnaci</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="mi">4_000_000</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:even?</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
 </feed>

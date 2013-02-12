@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby | Scrappy Academy]]></title>
+  <link href="http://ScrappyAcademy.github.com/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://ScrappyAcademy.github.com/"/>
+  <updated>2013-02-11T20:02:33-05:00</updated>
+  <id>http://ScrappyAcademy.github.com/</id>
+  <author>
+    <name><![CDATA[Scrappy Academy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Fibonacci Warm-Up]]></title>
+    <link href="http://ScrappyAcademy.github.com/blog/2013/01/28/fibonacci-warm-up/"/>
+    <updated>2013-01-28T19:24:00-05:00</updated>
+    <id>http://ScrappyAcademy.github.com/blog/2013/01/28/fibonacci-warm-up</id>
+    <content type="html"><![CDATA[<p>Something we started doing just this week, and plan on continuing moving
+forward, is tackling "warm-up" problems. This is reminiscent of high school math
+class. These are relatively simple programming problems that are solved via
+<em>pairing</em>.</p>
+
+<p>This week, we solved via <em>group-pairing</em> is where the entire group participates
+in solving the problem.  One person is designated as the <em>coder</em>. S/he displays
+her/his laptop on the conference room TV (via an Apple TV). The group then
+discusses the problem, and codes up a solution together.</p>
+
+<p>Often this leads into side discussions about various programming techniques,
+tips, tricks, etc. It's a good time for all. Everyone at different experience
+levels walks away with something new.</p>
+
+<p>Last week we started tackling <a href="http://projecteuler.net/">Project Euler</a>
+problems. Up first was <a href="http://projecteuler.net/problem=2"><em>Even Fibonacci numbers</em></a>.
+This appeared to be a relatively straight forward problem. The first solution
+that was attempted looked a bit like:</p>
+
+<p>```ruby
+a = 1
+b = 1
+sum = 0
+while b &lt; 4_000_000
+  a = b
+  b = a + b
+  if b.even?</p>
+
+<pre><code>sum = sum + b
+</code></pre>
+
+<p>  end
+end
+puts sum
+```</p>
+
+<p>However, this produced an incorrect result. Upon further investigation, the bug
+was in lines 5 and 6. Due to the order of the statements the value of <code>a</code> gets
+overwritten, before it can be added to <code>b</code>. The evaluation looks a bit like
+this:</p>
+
+<p><code>ruby
+a = 1; b = 1    # Before loop
+a = 1; b = 2    # 1st pass
+a = 2; b = 4    # 2nd pass
+a = 4; b = 8    # 3rd pass
+</code></p>
+
+<p>So to fix this, the group replaced those two lines of code with:</p>
+
+<p><code>
+tmp = b
+b = a + b
+a = tmp
+</code></p>
+
+<p>Now when things get evaluated, it looks like:</p>
+
+<p><code>ruby
+a = 1; b = 1; tmp = nil    # Before loop
+a = 1; b = 2; tmp = 1      # 1st pass
+a = 2; b = 3; tmp = 2      # 2nd pass
+a = 3; b = 5; tmp = 3      # 3rd pass
+</code></p>
+
+<p>This led into a side discussion about some Ruby idioms. Namely, multiple
+assignment. We were able to replace these three lines of code with one:</p>
+
+<p><code>ruby
+a, b = b, a+b
+</code></p>
+
+<p>This will do exactly as you expect. It helps to understand what Ruby is doing
+behind the scenes. In essence, it's evaluating and storing the right-hand-side
+(<em>rhs</em> as it is commonly seen in error messages). Then it uses the <code>splat</code> to
+dereference the values and assign them in turn. Think of it as:</p>
+
+<p><code>ruby
+tmp = [b, a+b]
+a, b = *tmp
+</code></p>
+
+<p>Additionally, we talked about the <code>if</code> and <code>unless</code> one-liners. These are great
+ways to shorten up the code. Our final solution, took the form:</p>
+
+<p><code>ruby
+a = b = 1
+sum = 0
+while b &lt; 4_000_000
+  a, b = b, a+b
+  sum += b if b.even?
+end
+puts sum
+</code></p>
+
+<p>While this is a good solution. It wasn't very re-useable. So to make it more
+re-useable we wrapped it in a method:</p>
+
+<p>```ruby
+def even_fibonnaci_sum(upper_limit)
+  a = b = 1
+  sum = 0
+  while b &lt; upper_limit</p>
+
+<pre><code>a, b = b, a+b
+sum += b if b.even?
+</code></pre>
+
+<p>  end
+  sum
+end
+```</p>
+
+<p><span class='pullquote-right' data-pullquote='So at this point we took
+a step back, and asked: <em>&#8220;What is the code that I wish I could write?&#8221;</em>.'>
+That's great. Now we can re-use it anywhere, and we are no longer locked into a
+<code>4_000_000</code> cap. However, the
+<a href="http://en.wikipedia.org/wiki/Fibonacci_number">Fibonnaci</a> sequence is very
+common. And this method doesn't let us re-use that. So at this point we took
+a step back, and asked: <em>"What is the code that I wish I could write?"</em>. The
+answer looked something like:
+</span></p>
+
+<p><code>ruby
+Fibonnaci.upto(4_000_000).select(&amp;:even?).sum
+</code></p>
+
+<p>A nice little one-liner. And it's very clear what we are doing. In English,
+this would read: <em>"For Fibonnaci numbers up to 4,000,000. Take the even numbers
+and sum them."</em></p>
+
+<p>Sadly, there is no Fibonnaci number generator, but we can
+<a href="http://www.dev.gd/20130114-building-sequences-with-enumerator.html">build sequences</a>.
+In fact the Ruby docs show an example of how to create one
+<a href="http://ruby-doc.org/core-1.9.3/Enumerator.html#method-c-new">Fibonacci Generator</a>.</p>
+
+<p>So we coded one up:</p>
+
+<p>```ruby
+def Fibonnaci
+  Enumerator.new do |y|</p>
+
+<pre><code>a = b = 1
+loop do
+  y &lt;&lt; a
+  a, b = b, a + b
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>Great! We have an <a href="http://ruby-doc.org/core-1.9.3/Enumerator.html"><code>Enumerator</code></a>,
+but there's no <code>upto</code>. So we created one:</p>
+
+<p>```ruby
+module Sequentially
+  def upto(limit, &amp;block)</p>
+
+<pre><code>enum = Enumerator.new do |y|
+  each do |num|
+    break unless num &lt; limit
+    y &lt;&lt; num
+  end
+end
+
+block ? enum.each(&amp;block) : enum
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>And updated the Fibonnaci generator accordingly:</p>
+
+<p>```ruby
+def Fibonnaci
+  Enumerator.new{ |y|</p>
+
+<pre><code># see above for meat
+</code></pre>
+
+<p>  }.extend Sequentially
+end
+```</p>
+
+<p>Sweet! <code>select</code> will work just fine. However, <code>sum</code> doesn't exist (at least not
+outside Rails). So, let's patch that in.</p>
+
+<p>```ruby
+module Enumerable
+  def sum</p>
+
+<pre><code>reduce(:+)
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>So this final solution is <strong><em>a lot longer</em></strong>. However, it is composed of very
+re-usable parts that we can continue to use for more
+<a href="http://projecteuler.net/">Project Euler</a> puzzles. Put that all together and
+you have the elegant solution:</p>
+
+<p>```ruby
+module Enumerable
+  def sum</p>
+
+<pre><code>reduce(:+)
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>module Sequentially
+  def upto(limit, &amp;block)</p>
+
+<pre><code>enum = Enumerator.new do |y|
+  each do |num|
+    break unless num &lt; limit
+    y &lt;&lt; num
+  end
+end
+
+block ? enum.each(&amp;block) : enum
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>def Fibonnaci
+  Enumerator.new{ |y|</p>
+
+<pre><code>a = b = 1
+loop do
+  y &lt;&lt; a
+  a, b = b, a + b
+end
+</code></pre>
+
+<p>  }.extend Sequentially
+end</p>
+
+<p>Fibonnaci.upto(4_000_000).select(&amp;:even?).sum
+```</p>
+]]></content>
+  </entry>
+  
+</feed>
