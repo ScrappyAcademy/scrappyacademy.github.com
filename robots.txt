@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://ScrappyAcademy.github.com/sitemap.xml 

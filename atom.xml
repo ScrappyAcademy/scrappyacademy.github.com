@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Scrappy Academy]]></title>
+  <link href="http://ScrappyAcademy.github.com/atom.xml" rel="self"/>
+  <link href="http://ScrappyAcademy.github.com/"/>
+  <updated>2013-02-11T19:22:38-05:00</updated>
+  <id>http://ScrappyAcademy.github.com/</id>
+  <author>
+    <name><![CDATA[Scrappy Academy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+</feed>
