@@ -120,7 +120,7 @@ That's great. Now we can re-use it anywhere, and we are no longer locked into a
 `4_000_000` cap. However, the
 [Fibonnaci](http://en.wikipedia.org/wiki/Fibonacci_number) sequence is very
 common. And this method doesn't let us re-use that. {" So at this point we took
-a step back, and asked: _"What is the code that I wish I could write?"_. "} The
+a step back, and asked: "What is the code that we wish we could write?" "} The
 answer looked something like:
 {% endpullquote %}
 
