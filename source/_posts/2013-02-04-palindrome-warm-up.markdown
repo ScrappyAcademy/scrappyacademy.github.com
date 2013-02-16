@@ -138,11 +138,35 @@ patch Ruby core. There is a lot of discussion in the community about how this is
 bad. In this case, we were willing to take the trade off with this simple patch
 as it followed these rules:
 
-  0. Is local only to our project
-  0. Is generic and can easily be re-used
-  0. Another implementation would probably not differ at all
+  * Is local only to our project
+  * Is generic and can easily be re-used
+  * Another implementation would probably not differ at all
 
 As always, Ruby is a language with lots of power. Use it responsibly.
+
+Final solution:
+
+```ruby
+def products(range, n_elements = 2)
+  # Range can be an array or numbers or a Range. Either way calling `to_a`
+  # ensures we have an array to work with
+  range.to_a.repeated_combination(n_elements).map{|nums| nums.reduce(:*)}
+end
+
+class String
+  def is_palindrome?
+    self == reverse
+  end
+end
+
+class Numeric
+  def is_palindrome?
+    to_s.is_palindrome?
+  end
+end
+
+products(100..999, 2).select(&:is_palindrome?).max
+```
 
 
 ## What else happened at Scrappy?
