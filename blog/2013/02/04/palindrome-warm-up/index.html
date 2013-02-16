@@ -1,0 +1,466 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Palindrome Warm-Up - Scrappy Academy</title>
+  <meta name="author" content="Scrappy Academy">
+
+  
+  <meta name="description" content="This week we continued our efforts at Project Euler tackling # 4, Largest
+Palindrome Product A palindromic number reads the same both ways. The &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ScrappyAcademy.github.com/blog/2013/02/04/palindrome-warm-up/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Scrappy Academy" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30513899-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <img style="float:right;" src="/images/scrappyAcademy.png" width="525" height="125" alt="Wee Beastie - Scrappy Logo from Rober Frost" />
+  <h1><a href="/">Scrappy Academy</a></h1>
+  
+    <h2>Learning Ruby and Rails while keeping it Scrappy</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ScrappyAcademy.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Palindrome Warm-Up</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-04T09:36:00-05:00" pubdate data-updated="true">Feb 4<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This week we continued our efforts at Project Euler tackling # 4, <a href="http://projecteuler.net/problem=4">Largest
+Palindrome Product</a></p>
+
+<blockquote><p>A palindromic number reads the same both ways. The largest palindrome made
+from the product of two 2-digit numbers is 9009 = 91 99.</p>
+
+<p>Find the largest palindrome made from the product of two 3-digit numbers.</p></blockquote>
+
+<p>This week instead of diving into code head-on we discussed what the exact
+problem was, <em>We wanted to find the largest palindrome for a product of numbers
+from 100-999.</em></p>
+
+<p>We then wrote up our thoughts into a format for the code we thought we should
+be writing to solve the problem:</p>
+
+<p><code>products(100..999).select(&amp;:is_palindrome?).max</code></p>
+
+<p>Doing this allowed us to visualize a possible solution through code. It also
+made obvious a few small problems we needed to solve before solving the main
+question.</p>
+
+<h2>Working with our code to find a solution:</h2>
+
+<p><strong>1. Produce an array of products</strong></p>
+
+<p>We looked through <a href="http://ruby-doc.org/core-1.9.3/Array.html">Ruby Doc</a> to find
+the perfect method to call on an existing array to create a new array of
+products.</p>
+
+<p><a href="http://ruby-doc.org/core-1.9.3/Array.html#method-i-repeated_combination"><code>repeated_combination</code></a>
+was exactly what we were looking for. This creates a new array of all the
+combinations of elements in your existing array, without duplicates.</p>
+
+<p>We then used the <code>map</code> method to generate the products of these new number
+pairs.</p>
+
+<p>Our Resulting Code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">products</span><span class="p">(</span><span class="n">range</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># Range can be an array or numbers or a Range. Either way calling `to_a`</span>
+</span><span class='line'>  <span class="c1"># ensures we have an array to work with</span>
+</span><span class='line'>  <span class="n">range</span><span class="o">.</span><span class="n">to_a</span><span class="o">.</span><span class="n">repeated_combination</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">{</span><span class="o">|</span><span class="n">nums</span><span class="o">|</span> <span class="n">nums</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="ss">:*</span><span class="p">)}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>2. Evaluate products to see which products are palindromes</strong></p>
+
+<p>This involved much discussion. At first we discussed manipulating the values
+as an array.</p>
+
+<p>What if we called <code>reverse</code> on the first three and last three indexes of the
+array values and if they were equal we had our palindromes?</p>
+
+<p>This could be a solution, but would result in a lot of labor intensive work by
+the function to manipulate every value several times.</p>
+
+<p>Will, a Scrappy member, brought up changing the array to a string. This way we
+could just call <code>reverse</code> on all the strings. Then it is simply a matter of
+checking if the string is the same forwards and backwards.</p>
+
+<p>This seemed like the best idea. So we decided to delegate the <code>is_palindrome?</code>
+logic to <code>String</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Numeric</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">is_palindrome?</span>
+</span><span class='line'>    <span class="nb">to_s</span><span class="o">.</span><span class="n">is_palindrome?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>3.  Define <code>is_palindrome</code></strong></p>
+
+<p>This problem was pretty easily solved.</p>
+
+<p>As we had already discussed figuring out what values were palindromes, we just
+needed our strings before we could implement the function.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">String</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">is_palindrome?</span>
+</span><span class='line'>    <span class="nb">self</span> <span class="o">==</span> <span class="n">reverse</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>4. Test our functions</strong></p>
+
+<p>We had solved all our mini problems so now it was time to tackle the main
+question:</p>
+
+<blockquote><p>Find the largest palindrome made from the product of two 3-digit
+numbers from 100-999.</p></blockquote>
+
+<p>We tested our functions in IRB: <code>products(100...1000, 2).select{|n|
+n.is_palindrome?}.max</code> sure enough returned the correct answer</p>
+
+<p><strong>5. Correct our function to work with any number of arguments</strong></p>
+
+<p>What excitement! We had collectively solved our weekly Project Euler problem,
+but could we do more?</p>
+
+<p>Yes! Our functions only returned the largest palindrome for a products of 2
+numbers. What if we wanted to explore the largest palindrome for the product
+of 3 numbers? No Problem!</p>
+
+<p>To update our function we created a variable <code>n_elements</code> for the number of
+arguments to be passed into the <code>repeated_combination</code> method in place of &#8220;2&#8221;.</p>
+
+<p>Defining a variable for the number of arguments allows you to customize the
+numbers you&#8217;re passing in to create a product.  Our new <code>products</code> function
+looked like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">products</span><span class="p">(</span><span class="n">range</span><span class="p">,</span> <span class="n">n_elements</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">range</span><span class="o">.</span><span class="n">to_a</span><span class="o">.</span><span class="n">repeated_combination</span><span class="p">(</span><span class="n">n_elements</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">{</span><span class="o">|</span><span class="n">nums</span><span class="o">|</span> <span class="n">nums</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="ss">:*</span><span class="p">)}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>6. Wrapping Up</strong></p>
+
+<p>So we had a solution. One thing that should be stated, was that we did monkey
+patch Ruby core. There is a lot of discussion in the community about how this is
+bad. In this case, we were willing to take the trade off with this simple patch
+as it followed these rules:</p>
+
+<ol>
+<li>Is local only to our project</li>
+<li>Is generic and can easily be re-used</li>
+<li>Another implementation would probably not differ at all</li>
+</ol>
+
+
+<p>As always, Ruby is a language with lots of power. Use it responsibly.</p>
+
+<h2>What else happened at Scrappy?</h2>
+
+<p>After the warm-up we started exploring <a href="http://coffeescript.org/">Coffee
+Script</a>.  The rest of our meetings this month will be
+focusing on the Campfire chat client &#8216;Hubot.&#8217;  Hubot uses Coffee Script to
+interact with users and have some fun.</p>
+
+<p><strong>What is Coffee Script?</strong></p>
+
+<p>Coffee Script is a Ruby-like language that compiles to Javascript.</p>
+
+<p><strong>Why would you use Coffee Script instead of good ole Javascript?</strong></p>
+
+<p>There are several idioms specific to Javascript that can be overlooked after a
+long day of coding in Rails. Coffee Script can make it easier to switch from
+back end to front end work without overlooking some of those specific idioms.</p>
+
+<p>Also, CoffeeScript is available by default in Rails. So it&#8217;s just one of the
+other technologies that are available for developer to learn.</p>
+
+<p>We started exploring Hubot in campfire and even made our first update.  We
+cloned the Hubot from Scrappy Academy&#8217;s main repo directly onto our machine
+from <a href="https://github.com/ScrappyAcademy/hubot">GitHub</a></p>
+
+<p>Next we made a branch on the Scrappy Academy Hubot repo to match the issue we
+wanted to solve, in this case we created the branch &#8220;Fix Cheer Me Up&#8221;.</p>
+
+<p>Our goal with &#8220;Fix Cheer Me Up&#8221; was to tell our Hubot to listen for the phrase
+&#8220;cheer me up&#8221; and respond instead of having to ask our Hubot directly to &#8220;cheer
+me up&#8221;.</p>
+
+<p>After cloning the repo onto our machine we opened up the <code>script</code>
+file and then opened <code>cheer.coffee</code>.  We located &#8220;cheer me up&#8221; and
+updated <code>robot.respond /cheer me up...</code> to <code>robot.hear /cheer me up...</code></p>
+
+<p>Now we needed to update the main repo with the changes we made on our local
+machine.</p>
+
+<p>We went to GitHub and created a Pull Request to merge the updates from our &#8220;Fix
+Cheer Me Up&#8221; branch to the Hubot &#8220;Master&#8221; branch.</p>
+
+<p>We checked to make sure all systems were a go and then merged our updates onto
+Master, success!</p>
+
+<p>Now our hubot takes note anytime &#8220;cheer me up&#8221; is mentioned in converstaion on
+our Campfire site instead of having to ask our hubot directly to cheer us up!</p>
+
+<p>This week our goal is to tackle some of the issues with Hubot in the Scrappy
+Academy repo.  What issues are you tackling this week on Hubot?</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Emily Williamson</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-04T09:36:00-05:00" pubdate data-updated="true">Feb 4<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/project-euler/'>project euler</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/warmup/'>warmup</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://ScrappyAcademy.github.com/blog/2013/02/04/palindrome-warm-up/" data-via="scrappyacademy" data-counturl="http://ScrappyAcademy.github.com/blog/2013/02/04/palindrome-warm-up/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/01/28/fibonacci-warm-up/" title="Previous Post: Fibonacci Warm-Up">&laquo; Fibonacci Warm-Up</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/02/04/palindrome-warm-up/">Palindrome Warm-Up</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/28/fibonacci-warm-up/">Fibonacci Warm-Up</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/scrappyacademy">@scrappyacademy</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'scrappyacademy',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("scrappyacademy", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/scrappyacademy" class="twitter-follow-button" data-show-count="false">Follow @scrappyacademy</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Scrappy Academy -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

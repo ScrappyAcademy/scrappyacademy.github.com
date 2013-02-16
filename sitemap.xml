@@ -2,15 +2,19 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://ScrappyAcademy.github.com/blog/2013/01/28/fibonacci-warm-up/</loc>
-        <lastmod>2013-02-11T20:24:18-05:00</lastmod>
+        <lastmod>2013-02-16T10:03:57-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://ScrappyAcademy.github.com/blog/2013/02/04/palindrome-warm-up/</loc>
+        <lastmod>2013-02-16T10:04:20-05:00</lastmod>
     </url>
     <url>
         <loc>http://ScrappyAcademy.github.com/blog/archives/</loc>
-        <lastmod>2013-02-11T20:24:18-05:00</lastmod>
+        <lastmod>2013-02-16T10:04:20-05:00</lastmod>
     </url>
     <url>
         <loc>http://ScrappyAcademy.github.com/</loc>
-        <lastmod>2013-02-11T20:24:18-05:00</lastmod>
+        <lastmod>2013-02-16T10:04:20-05:00</lastmod>
     </url>
     <url>
         <loc>http://ScrappyAcademy.github.com/robots.txt</loc>
