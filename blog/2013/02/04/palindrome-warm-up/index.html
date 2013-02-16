@@ -249,14 +249,57 @@ patch Ruby core. There is a lot of discussion in the community about how this is
 bad. In this case, we were willing to take the trade off with this simple patch
 as it followed these rules:</p>
 
-<ol>
+<ul>
 <li>Is local only to our project</li>
 <li>Is generic and can easily be re-used</li>
 <li>Another implementation would probably not differ at all</li>
-</ol>
+</ul>
 
 
 <p>As always, Ruby is a language with lots of power. Use it responsibly.</p>
+
+<p>Final solution:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">products</span><span class="p">(</span><span class="n">range</span><span class="p">,</span> <span class="n">n_elements</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># Range can be an array or numbers or a Range. Either way calling `to_a`</span>
+</span><span class='line'>  <span class="c1"># ensures we have an array to work with</span>
+</span><span class='line'>  <span class="n">range</span><span class="o">.</span><span class="n">to_a</span><span class="o">.</span><span class="n">repeated_combination</span><span class="p">(</span><span class="n">n_elements</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">{</span><span class="o">|</span><span class="n">nums</span><span class="o">|</span> <span class="n">nums</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="ss">:*</span><span class="p">)}</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">String</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">is_palindrome?</span>
+</span><span class='line'>    <span class="nb">self</span> <span class="o">==</span> <span class="n">reverse</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Numeric</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">is_palindrome?</span>
+</span><span class='line'>    <span class="nb">to_s</span><span class="o">.</span><span class="n">is_palindrome?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">products</span><span class="p">(</span><span class="mi">100</span><span class="o">.</span><span class="n">.</span><span class="mi">999</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:is_palindrome?</span><span class="p">)</span><span class="o">.</span><span class="n">max</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>What else happened at Scrappy?</h2>
 

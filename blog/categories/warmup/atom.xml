@@ -4,7 +4,7 @@
   <title><![CDATA[Category: warmup | Scrappy Academy]]></title>
   <link href="http://ScrappyAcademy.github.com/blog/categories/warmup/atom.xml" rel="self"/>
   <link href="http://ScrappyAcademy.github.com/"/>
-  <updated>2013-02-16T10:05:31-05:00</updated>
+  <updated>2013-02-16T10:13:14-05:00</updated>
   <id>http://ScrappyAcademy.github.com/</id>
   <author>
     <name><![CDATA[Scrappy Academy]]></name>
@@ -151,14 +151,44 @@ patch Ruby core. There is a lot of discussion in the community about how this is
 bad. In this case, we were willing to take the trade off with this simple patch
 as it followed these rules:</p>
 
-<ol>
+<ul>
 <li>Is local only to our project</li>
 <li>Is generic and can easily be re-used</li>
 <li>Another implementation would probably not differ at all</li>
-</ol>
+</ul>
 
 
 <p>As always, Ruby is a language with lots of power. Use it responsibly.</p>
+
+<p>Final solution:</p>
+
+<p><code>``ruby
+def products(range, n_elements = 2)
+  # Range can be an array or numbers or a Range. Either way calling</code>to_a`
+  # ensures we have an array to work with
+  range.to_a.repeated_combination(n_elements).map{|nums| nums.reduce(:*)}
+end</p>
+
+<p>class String
+  def is_palindrome?</p>
+
+<pre><code>self == reverse
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class Numeric
+  def is_palindrome?</p>
+
+<pre><code>to_s.is_palindrome?
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>products(100..999, 2).select(&amp;:is_palindrome?).max
+```</p>
 
 <h2>What else happened at Scrappy?</h2>
 
