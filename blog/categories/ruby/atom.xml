@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Scrappy Academy]]></title>
   <link href="http://ScrappyAcademy.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://ScrappyAcademy.github.com/"/>
-  <updated>2013-02-16T10:13:14-05:00</updated>
+  <updated>2013-02-16T16:44:56-05:00</updated>
   <id>http://ScrappyAcademy.github.com/</id>
   <author>
     <name><![CDATA[Scrappy Academy]]></name>
@@ -12,6 +12,196 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[About Ruby Blocks]]></title>
+    <link href="http://ScrappyAcademy.github.com/blog/2013/02/16/about-ruby-blocks/"/>
+    <updated>2013-02-16T16:10:00-05:00</updated>
+    <id>http://ScrappyAcademy.github.com/blog/2013/02/16/about-ruby-blocks</id>
+    <content type="html"><![CDATA[<p>After learning a bit about Ruby and the basic way that data is stored and
+manipulated I came across the concept of the Block.</p>
+
+<p>I was enthralled...and bewildered.</p>
+
+<p>The concept seemed simple enough. Blocks are pieces of code, or instructions,
+that are passed to a function.</p>
+
+<p>Amazing! Passing messages to other messages! This sounds highly advanced.  I
+confess my first thought <em>"Why would I ever want to pass a message to another
+message"?</em></p>
+
+<p>This blog entry will begin with the syntax used to pass a Block to a function
+and finish with a discussion on the usefulness of being able to pass code to a
+function.</p>
+
+<h2>Syntax</h2>
+
+<p>So first a bit about Blocks in general. A Block is a bit of code that follows a
+function call and is contained within a set of braces <code>{}</code> or <code>do</code> / <code>end</code>
+delimiters. There is a common convention that braces should be used where the
+Block is only one line and <code>do</code> / <code>end</code> delimiters are used where the code
+extends over multiple lines. Examples below...</p>
+
+<p><code>ruby
+some_function(arguments) { puts "Short Code Example" }
+</code></p>
+
+<p><code>ruby
+some_function(arguments) do
+  puts "This is a style"
+  puts "commonly used for code in a block"
+  puts "fitting over multiple lines"
+end
+</code></p>
+
+<p>_Jim Weirich discusses another convention specific to the presence of a return
+value in his <a href="http://onestepback.org/index.cgi/Tech/Ruby/BraceVsDoEnd.rdoc">blog
+entry</a>.</p>
+
+<p>Regardless of how the Block is defined, it is always listed after a message
+starting on the same line as the message call.</p>
+
+<p><strong>General Syntax</strong></p>
+
+<p>```ruby
+object.message(arguments) {block}</p>
+
+<p>object.message(arguments) do
+  # block
+end
+```</p>
+
+<p><strong>Example 1:</strong></p>
+
+<p><code>ruby
+3.each { puts "I can't stop printing!" }
+</code></p>
+
+<p><strong>Console:</strong></p>
+
+<p><code>text
+I can't stop printing!
+I can't stop printing!
+I can't stop printing!
+</code></p>
+
+<p><strong>Example 2:</strong></p>
+
+<p><code>ruby
+array = %w[ geography art science ]
+array.each do |subject|
+  puts "I love #{subject}"
+end
+</code></p>
+
+<p><strong>Console:</strong></p>
+
+<p><code>text
+I love art
+I love science
+I love math
+</code></p>
+
+<p>The second example demonstrates how a Block can accept an argument passed to it
+from the function. In this case it is the subject or value of the array.</p>
+
+<h2>Usage</h2>
+
+<p><em>So a block is a piece of logic that is passed with a message. But other than
+utilizing simple pre-built iterators how can I unleash a Block within my own
+code? How can I write a function that accepts a Block?</em></p>
+
+<p>Blocks are implicitly accepted by all functions. Even if the function does not
+use the block, it is valid syntax to pass it.</p>
+
+<p>However, often, you do want to use the block. To write the function to
+accommodate the presence of the block use <code>yield</code>. To provide a default
+behavior if no block is provided it can be switched on with <code>if block_given?</code></p>
+
+<p>When the function reaches <code>yield</code> the block is invoked. If arguments are to be
+passed to the block they are listed after <code>yield</code>. ( <code>yield arguments</code>)</p>
+
+<p>```ruby
+def type_of_day
+  if block_given?</p>
+
+<pre><code>puts yield
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>puts "I havn't used a block all day, this code sucks"
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>type_of_day { "I'm using a Block just like a real Ruby programmer!" }
+```</p>
+
+<p>Blocks are particulary usefull when you find yourself writing lots of functions
+containing the same code. If you have five functions with code that differs
+only by one line...consider using a block. This way, you can condense all of
+the functions into one well written function that contains a <code>yield</code> statement
+with the differing code.</p>
+
+<p>Another similar example would be writing a function that contains a bit of
+logic that might change in the future (think <code>each</code>). If you build a function
+that iterates through an array and performs a bit of logic on each index you
+could write a function that accepts a block containing the logic to perform.</p>
+
+<p>The following example shows code that might exist for a program designed to
+automate yard maintenance. The <code>Yard</code> function has a public interface called
+<code>maintain_garden</code> that contains several functions needed for garden upkeep.</p>
+
+<p>```ruby
+class Yard
+  def maintain_garden</p>
+
+<pre><code>water_garden
+weed_garden
+yield if block_given?
+</code></pre>
+
+<p>  end</p>
+
+<p>  # other functions omitted for brevity
+end
+```</p>
+
+<p>Utilizing a block the <code>maintain_garden</code> function is dynamically able to provide
+a way for others to hook in additional behavior. This way, if we decide to add
+functions like <code>fertilize_garden</code> and <code>harvest_garden</code> we can pass them into
+the function without having to modify the default behavior.</p>
+
+<p>```ruby
+first_yard = Yard.new</p>
+
+<h3>During the winter</h3>
+
+<p>first_yard.maintain_garden</p>
+
+<h3>During the spring</h3>
+
+<p>first_yard.maintain_garden { fertilize_garden }</p>
+
+<h3>During the fall</h3>
+
+<p>first_yard.maintain_garden do
+  harvest_garden
+  till_garden
+end
+```</p>
+
+<h2>Conclusion</h2>
+
+<p>Block's can be used to make your functions more versatile allowing you to
+reduce duplication of code (making your code more DRY). They can also be
+utilized where logic may change in the future. Instead of having to go back and
+manipulate the code within a function a block can be used to pass new logic to
+the existing function.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Palindrome Warm-Up]]></title>

@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>About Ruby Blocks - Scrappy Academy</title>
+  <meta name="author" content="Scrappy Academy">
+
+  
+  <meta name="description" content="After learning a bit about Ruby and the basic way that data is stored and
+manipulated I came across the concept of the Block. I was enthralled&#8230; &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ScrappyAcademy.github.com/blog/2013/02/16/about-ruby-blocks/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Scrappy Academy" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30513899-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <img style="float:right;" src="/images/scrappyAcademy.png" width="525" height="125" alt="Wee Beastie - Scrappy Logo from Rober Frost" />
+  <h1><a href="/">Scrappy Academy</a></h1>
+  
+    <h2>Learning Ruby and Rails while keeping it Scrappy</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ScrappyAcademy.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">About Ruby Blocks</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-16T16:10:00-05:00" pubdate data-updated="true">Feb 16<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>After learning a bit about Ruby and the basic way that data is stored and
+manipulated I came across the concept of the Block.</p>
+
+<p>I was enthralled&#8230;and bewildered.</p>
+
+<p>The concept seemed simple enough. Blocks are pieces of code, or instructions,
+that are passed to a function.</p>
+
+<p>Amazing! Passing messages to other messages! This sounds highly advanced.  I
+confess my first thought <em>&#8220;Why would I ever want to pass a message to another
+message&#8221;?</em></p>
+
+<p>This blog entry will begin with the syntax used to pass a Block to a function
+and finish with a discussion on the usefulness of being able to pass code to a
+function.</p>
+
+<h2>Syntax</h2>
+
+<p>So first a bit about Blocks in general. A Block is a bit of code that follows a
+function call and is contained within a set of braces <code>{}</code> or <code>do</code> / <code>end</code>
+delimiters. There is a common convention that braces should be used where the
+Block is only one line and <code>do</code> / <code>end</code> delimiters are used where the code
+extends over multiple lines. Examples below&#8230;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">some_function</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span> <span class="p">{</span> <span class="nb">puts</span> <span class="s2">&quot;Short Code Example&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">some_function</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;This is a style&quot;</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;commonly used for code in a block&quot;</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;fitting over multiple lines&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>_Jim Weirich discusses another convention specific to the presence of a return
+value in his <a href="http://onestepback.org/index.cgi/Tech/Ruby/BraceVsDoEnd.rdoc">blog
+entry</a>.</p>
+
+<p>Regardless of how the Block is defined, it is always listed after a message
+starting on the same line as the message call.</p>
+
+<p><strong>General Syntax</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">object</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span> <span class="p">{</span><span class="n">block</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">object</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="c1"># block</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Example 1:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">3</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="nb">puts</span> <span class="s2">&quot;I can&#39;t stop printing!&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Console:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>I can&#39;t stop printing!
+</span><span class='line'>I can&#39;t stop printing!
+</span><span class='line'>I can&#39;t stop printing!
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Example 2:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array</span> <span class="o">=</span> <span class="sx">%w[ geography art science ]</span>
+</span><span class='line'><span class="n">array</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">subject</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;I love </span><span class="si">#{</span><span class="n">subject</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Console:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>I love art
+</span><span class='line'>I love science
+</span><span class='line'>I love math
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The second example demonstrates how a Block can accept an argument passed to it
+from the function. In this case it is the subject or value of the array.</p>
+
+<h2>Usage</h2>
+
+<p><em>So a block is a piece of logic that is passed with a message. But other than
+utilizing simple pre-built iterators how can I unleash a Block within my own
+code? How can I write a function that accepts a Block?</em></p>
+
+<p>Blocks are implicitly accepted by all functions. Even if the function does not
+use the block, it is valid syntax to pass it.</p>
+
+<p>However, often, you do want to use the block. To write the function to
+accommodate the presence of the block use <code>yield</code>. To provide a default
+behavior if no block is provided it can be switched on with <code>if block_given?</code></p>
+
+<p>When the function reaches <code>yield</code> the block is invoked. If arguments are to be
+passed to the block they are listed after <code>yield</code>. ( <code>yield arguments</code>)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">type_of_day</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nb">block_given?</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="k">yield</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;I havn&#39;t used a block all day, this code sucks&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">type_of_day</span> <span class="p">{</span> <span class="s2">&quot;I&#39;m using a Block just like a real Ruby programmer!&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Blocks are particulary usefull when you find yourself writing lots of functions
+containing the same code. If you have five functions with code that differs
+only by one line&#8230;consider using a block. This way, you can condense all of
+the functions into one well written function that contains a <code>yield</code> statement
+with the differing code.</p>
+
+<p>Another similar example would be writing a function that contains a bit of
+logic that might change in the future (think <code>each</code>). If you build a function
+that iterates through an array and performs a bit of logic on each index you
+could write a function that accepts a block containing the logic to perform.</p>
+
+<p>The following example shows code that might exist for a program designed to
+automate yard maintenance. The <code>Yard</code> function has a public interface called
+<code>maintain_garden</code> that contains several functions needed for garden upkeep.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Yard</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">maintain_garden</span>
+</span><span class='line'>    <span class="n">water_garden</span>
+</span><span class='line'>    <span class="n">weed_garden</span>
+</span><span class='line'>    <span class="k">yield</span> <span class="k">if</span> <span class="nb">block_given?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># other functions omitted for brevity</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Utilizing a block the <code>maintain_garden</code> function is dynamically able to provide
+a way for others to hook in additional behavior. This way, if we decide to add
+functions like <code>fertilize_garden</code> and <code>harvest_garden</code> we can pass them into
+the function without having to modify the default behavior.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">first_yard</span> <span class="o">=</span> <span class="no">Yard</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">### During the winter</span>
+</span><span class='line'><span class="n">first_yard</span><span class="o">.</span><span class="n">maintain_garden</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">### During the spring</span>
+</span><span class='line'><span class="n">first_yard</span><span class="o">.</span><span class="n">maintain_garden</span> <span class="p">{</span> <span class="n">fertilize_garden</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">### During the fall</span>
+</span><span class='line'><span class="n">first_yard</span><span class="o">.</span><span class="n">maintain_garden</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">harvest_garden</span>
+</span><span class='line'>  <span class="n">till_garden</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Conclusion</h2>
+
+<p>Block&#8217;s can be used to make your functions more versatile allowing you to
+reduce duplication of code (making your code more DRY). They can also be
+utilized where logic may change in the future. Instead of having to go back and
+manipulate the code within a function a block can be used to pass new logic to
+the existing function.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Christopher Sigg</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-16T16:10:00-05:00" pubdate data-updated="true">Feb 16<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://ScrappyAcademy.github.com/blog/2013/02/16/about-ruby-blocks/" data-via="scrappyacademy" data-counturl="http://ScrappyAcademy.github.com/blog/2013/02/16/about-ruby-blocks/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/04/palindrome-warm-up/" title="Previous Post: Palindrome Warm-Up">&laquo; Palindrome Warm-Up</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/02/16/about-ruby-blocks/">About Ruby Blocks</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/04/palindrome-warm-up/">Palindrome Warm-Up</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/28/fibonacci-warm-up/">Fibonacci Warm-Up</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/scrappyacademy">@scrappyacademy</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'scrappyacademy',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("scrappyacademy", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/scrappyacademy" class="twitter-follow-button" data-show-count="false">Follow @scrappyacademy</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Scrappy Academy -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
