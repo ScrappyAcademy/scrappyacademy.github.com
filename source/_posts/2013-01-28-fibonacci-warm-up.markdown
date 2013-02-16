@@ -7,6 +7,7 @@ comments: false
 categories:
 - ruby
 - warmup
+- project euler
 ---
 Something we started doing just this week, and plan on continuing moving
 forward, is tackling "warm-up" problems. This is reminiscent of high school math
