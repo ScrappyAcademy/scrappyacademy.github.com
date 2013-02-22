@@ -87,9 +87,9 @@ end
 **Console:**
 
 ```text
+I love geography
 I love art
 I love science
-I love math
 ```
 
 The second example demonstrates how a Block can accept an argument passed to it
